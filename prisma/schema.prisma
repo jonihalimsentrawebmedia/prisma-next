@@ -5,6 +5,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+  // url      = env("DATABASE_URL")
 }
 
 model User {
@@ -39,4 +40,11 @@ model Rent {
   car     Car      @relation(references: [id], fields: [carId])
 
   @@index([carId])
+}
+
+model Feature {
+  id          Int    @id @default(autoincrement())
+  icon        String
+  title       String
+  description String
 }

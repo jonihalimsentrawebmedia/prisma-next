@@ -65,6 +65,9 @@ export async function GET(req: NextRequest) {
       rent: true
     }
   })
-  return NextResponse.json(cars)
+  return NextResponse.json({
+    status: 200,
+    data: cars
+  })
   
 }

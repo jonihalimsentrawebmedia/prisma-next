@@ -76,7 +76,10 @@ export async function GET(req: NextRequest) {
       car: true,
     }
   })
-  return NextResponse.json(rents)
+  return NextResponse.json({
+    status: 200,
+    data: rents
+  })
   
   
 }
