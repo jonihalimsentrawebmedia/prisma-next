@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  name     String
+  password String
+  phone    String
+}
+
+model Car {
+  id        Int    @id @default(autoincrement())
+  name      String
+  seat      String
+  transmisi String
+  type      String
+  image     String
+  rent      Rent[]
+}
+
+enum RentType {
+  SUPIR
+  LEPAS_KUNCI
+}
+
+model Rent {
+  id      Int      @id @default(autoincrement())
+  type    RentType
+  price   Int
+  is_nego Boolean
+  carId   Int
+  car     Car      @relation(references: [id], fields: [carId])
+
+  @@index([carId])
+}
