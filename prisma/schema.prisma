@@ -17,13 +17,14 @@ model User {
 }
 
 model Car {
-  id        Int    @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   name      String
   seat      String
   transmisi String
   type      String
   image     String
   rent      Rent[]
+  travel    Travel[]
 }
 
 enum RentType {
@@ -47,4 +48,16 @@ model Feature {
   icon        String
   title       String
   description String
+}
+
+model Travel {
+  id          Int    @id @default(autoincrement())
+  name        String
+  image       String
+  price       Int
+  kapasitas   Int
+  carTravelId Int
+  mobil       Car    @relation(references: [id], fields: [carTravelId])
+
+  @@index([carTravelId])
 }
