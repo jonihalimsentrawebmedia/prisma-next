@@ -47,7 +47,7 @@ function Stars() {
 function Card({item}: {item: (typeof testimonials)[number]}) {
   return (
     <div
-      className="w-80 shrink-0 rounded-2xl border bg-card p-5 transition-colors hover:border-primary/50"
+      className="w-72 shrink-0 rounded-2xl border bg-card p-5 transition-colors hover:border-primary/50 sm:w-80"
     >
       <div className="flex items-center justify-between">
         <Stars/>

@@ -40,7 +40,7 @@ export function Fleet({cars}: {cars: FleetCar[]}) {
               siap menemani perjalanan Anda.
             </p>
           </div>
-          <Button asChild variant="outline" size="lg" className="group">
+          <Button asChild variant="outline" size="lg" className="group w-full sm:w-auto">
             <a href="#kontak">
               Lihat Semua Armada
             </a>

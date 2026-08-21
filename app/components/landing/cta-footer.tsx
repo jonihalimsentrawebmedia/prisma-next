@@ -27,7 +27,11 @@ export function CtaSection() {
             </p>
 
             <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-              <Button asChild size="lg" className="group shadow-xl shadow-primary/25">
+              <Button
+                asChild
+                size="lg"
+                className="group w-full shadow-xl shadow-primary/25 sm:w-auto"
+              >
                 <a href="#armada">
                   Booking Sekarang
                   <ArrowRight className="size-4 transition-transform group-hover:translate-x-1"/>
@@ -37,7 +41,7 @@ export function CtaSection() {
                 asChild
                 size="lg"
                 variant="outline"
-                className="border-background/30 bg-transparent text-background hover:bg-background/10 hover:text-background"
+                className="w-full border-background/30 bg-transparent text-background hover:bg-background/10 hover:text-background sm:w-auto"
               >
                 <a href="tel:+6281234567890">
                   <PhoneCall className="size-4"/>

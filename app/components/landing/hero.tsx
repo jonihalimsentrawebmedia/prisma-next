@@ -67,7 +67,7 @@ export function Hero() {
             </span>
           </div>
 
-          <h1 className="mt-6 text-4xl leading-tight font-extrabold tracking-tight sm:text-5xl lg:text-6xl">
+          <h1 className="mt-6 text-3xl leading-tight font-extrabold tracking-tight sm:text-4xl md:text-5xl lg:text-6xl">
             Sewa Mobil{' '}
             <span className="bg-gradient-to-r from-primary via-chart-2 to-chart-4 bg-clip-text text-transparent">
               Premium
@@ -75,24 +75,24 @@ export function Hero() {
             Kapan Saja, Ke Mana Saja
           </h1>
 
-          <p className="mt-5 max-w-lg text-base text-muted-foreground md:text-lg">
+          <p className="mt-4 max-w-lg text-sm text-muted-foreground sm:text-base md:mt-5 md:text-lg">
             Armada terawat, supir profesional, dan proses booking super cepat.
             Perjalanan nyaman dimulai dari sini — tanpa ribet, tanpa biaya tersembunyi.
           </p>
 
           <div className="mt-8 flex flex-wrap items-center gap-3">
-            <Button asChild size="lg" className="group shadow-xl shadow-primary/30">
+            <Button asChild size="lg" className="group w-full shadow-xl shadow-primary/30 sm:w-auto">
               <a href="#armada">
                 Mulai Sewa Sekarang
                 <MousePointerClick className="size-4 transition-transform group-hover:rotate-12"/>
               </a>
             </Button>
-            <Button asChild size="lg" variant="outline">
+            <Button asChild size="lg" variant="outline" className="w-full sm:w-auto">
               <Link href="/login">Masuk Admin</Link>
             </Button>
           </div>
 
-          <div className="mt-10 grid max-w-md grid-cols-2 gap-x-8 gap-y-6 sm:grid-cols-4 sm:max-w-none lg:max-w-xl">
+          <div className="mt-10 grid max-w-md grid-cols-2 gap-x-6 gap-y-6 sm:max-w-none sm:grid-cols-4 sm:gap-x-8 lg:max-w-xl">
             {stats.map((stat) => (
               <div key={stat.label}>
                 <Counter
@@ -127,31 +127,31 @@ export function Hero() {
           />
 
           <div
-            className="absolute top-6 -left-2 z-20 animate-float-delayed rounded-2xl border bg-background/90 p-3 shadow-xl backdrop-blur md:-left-6"
+            className="absolute top-4 left-0 z-20 animate-float-delayed rounded-xl border bg-background/90 p-2.5 shadow-xl backdrop-blur sm:rounded-2xl sm:p-3 md:-left-6 md:top-6"
             style={{transform: `translate(${pointer.x * -26}px, ${pointer.y * -18}px)`}}
           >
-            <div className="flex items-center gap-2.5">
-              <span className="flex size-9 items-center justify-center rounded-xl bg-primary/15 text-primary">
-                <Wallet className="size-4.5"/>
+            <div className="flex items-center gap-2 sm:gap-2.5">
+              <span className="flex size-8 items-center justify-center rounded-lg bg-primary/15 text-primary sm:size-9 sm:rounded-xl">
+                <Wallet className="size-4 sm:size-4.5"/>
               </span>
               <div>
-                <p className="text-[11px] text-muted-foreground">Mulai dari</p>
-                <p className="text-sm font-bold">Rp 250rb /hari</p>
+                <p className="text-[10px] text-muted-foreground sm:text-[11px]">Mulai dari</p>
+                <p className="text-xs font-bold sm:text-sm">Rp 250rb /hari</p>
               </div>
             </div>
           </div>
 
           <div
-            className="absolute -bottom-2 right-0 z-20 animate-float-slow rounded-2xl border bg-background/90 p-3 shadow-xl backdrop-blur md:-right-4"
+            className="absolute bottom-0 right-0 z-20 animate-float-slow rounded-xl border bg-background/90 p-2.5 shadow-xl backdrop-blur sm:rounded-2xl sm:p-3 md:-right-4 md:-bottom-2"
             style={{transform: `translate(${pointer.x * -20}px, ${pointer.y * -26}px)`}}
           >
-            <div className="flex items-center gap-2.5">
-              <span className="flex size-9 items-center justify-center rounded-xl bg-primary/15 text-primary">
-                <MapPin className="size-4.5"/>
+            <div className="flex items-center gap-2 sm:gap-2.5">
+              <span className="flex size-8 items-center justify-center rounded-lg bg-primary/15 text-primary sm:size-9 sm:rounded-xl">
+                <MapPin className="size-4 sm:size-4.5"/>
               </span>
               <div>
-                <p className="text-[11px] text-muted-foreground">Layanan Antar</p>
-                <p className="text-sm font-bold">Seluruh Kota</p>
+                <p className="text-[10px] text-muted-foreground sm:text-[11px]">Layanan Antar</p>
+                <p className="text-xs font-bold sm:text-sm">Seluruh Kota</p>
               </div>
             </div>
           </div>
