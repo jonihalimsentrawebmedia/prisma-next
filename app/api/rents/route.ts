@@ -6,7 +6,7 @@ export async function POST(req: NextRequest) {
   try {
     const user = authGuard(req)
     const body = await req.json()
-    const {type, price, is_nego, carId} = body
+    const {name, type, price, is_nego, carId} = body
     
     if (!user) {
       return NextResponse.json(
@@ -35,6 +35,7 @@ export async function POST(req: NextRequest) {
     
     const rent = await prisma.rent.create({
       data: {
+        name,
         type,
         price,
         is_nego: is_nego ?? false,

@@ -5,7 +5,6 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  // url      = env("DATABASE_URL")
 }
 
 model User {
@@ -34,6 +33,7 @@ enum RentType {
 
 model Rent {
   id      Int      @id @default(autoincrement())
+  name    String   @default("")
   type    RentType
   price   Int
   is_nego Boolean

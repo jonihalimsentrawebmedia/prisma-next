@@ -9,10 +9,12 @@ import {zodResolver} from "@hookform/resolvers/zod";
 import {Button} from "@/components/ui/button";
 import AxiosClient from "@/provider/axios";
 import {useState} from "react";
+import {useRouter} from "next/navigation";
 import Cookies from "js-cookie";
 
 export const FormsLogin = () => {
   const [loading, setLoading] = useState(false)
+  const router = useRouter()
   
   const form = useForm<LoginResolverType>({
     resolver: zodResolver(LoginResolver)
@@ -24,7 +26,7 @@ export const FormsLogin = () => {
     await AxiosClient.post('/auth/login', e).then(res => {
       if (res.status === 200) {
         Cookies.set('token', res.data.user.token)
-        setLoading(false)
+        router.push('/admin/dashboard')
       }
     }).catch(err => {
       console.log(err)
