@@ -35,7 +35,7 @@ const emptyValues: CarResolverType = {
 }
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp']
-const MAX_SIZE = 5 * 1024 * 1024
+const MAX_SIZE = 4 * 1024 * 1024
 
 const CarFormDialog = ({open, initialData, onClose, onSubmit}: CarFormDialogProps) => {
   const [loading, setLoading] = useState(false)
@@ -68,7 +68,7 @@ const CarFormDialog = ({open, initialData, onClose, onSubmit}: CarFormDialogProp
     }
 
     if (file.size > MAX_SIZE) {
-      setUploadError('Ukuran gambar maksimal 5MB')
+      setUploadError('Ukuran gambar maksimal 4MB')
       return
     }
 
@@ -207,7 +207,7 @@ const CarFormDialog = ({open, initialData, onClose, onSubmit}: CarFormDialogProp
                     <>
                       <ImagePlus className="size-6 text-primary"/>
                       Klik untuk pilih gambar
-                      <span className="text-xs">JPEG, PNG, atau WebP — maksimal 5MB</span>
+                      <span className="text-xs">JPEG, PNG, atau WebP — maksimal 4MB</span>
                     </>
                   )}
                 </button>

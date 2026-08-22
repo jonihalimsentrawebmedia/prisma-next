@@ -2,7 +2,7 @@ import {NextRequest, NextResponse} from 'next/server'
 import {authGuard} from '@/lib/auth'
 import cloudinary from '@/lib/cloudinary'
 
-const MAX_SIZE = 5 * 1024 * 1024
+const MAX_SIZE = 4 * 1024 * 1024
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp']
 
 type UploadResult = {secure_url: string; public_id: string}
@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
 
     if (buffer.length > MAX_SIZE) {
       return NextResponse.json(
-        {message: 'Ukuran gambar maksimal 5MB'},
+        {message: 'Ukuran gambar maksimal 4MB'},
         {status: 400}
       )
     }
