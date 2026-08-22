@@ -1,13 +1,14 @@
 "use client"
 
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import {useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {Form} from "@/components/ui/form";
 import {Button} from "@/components/ui/button";
 import TextInput from "@/components/common/input";
+import AxiosClient from "@/provider/axios";
 import {CarResolver, type CarResolverType} from "@/app/admin/cars/types/resolver";
-import {X} from "lucide-react";
+import {ImagePlus, Loader2, X} from "lucide-react";
 
 export type Car = {
   id: number
@@ -33,21 +34,58 @@ const emptyValues: CarResolverType = {
   image: '',
 }
 
+const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp']
+const MAX_SIZE = 5 * 1024 * 1024
+
 const CarFormDialog = ({open, initialData, onClose, onSubmit}: CarFormDialogProps) => {
   const [loading, setLoading] = useState(false)
+  const [uploading, setUploading] = useState(false)
+  const [uploadError, setUploadError] = useState('')
+  const fileRef = useRef<HTMLInputElement>(null)
 
   const form = useForm<CarResolverType>({
     resolver: zodResolver(CarResolver),
     defaultValues: emptyValues,
   })
 
+  const image = form.watch('image')
+
   useEffect(() => {
     if (open) {
+      setUploadError('')
       form.reset(initialData ?? emptyValues)
     }
   }, [open, initialData, form])
 
   if (!open) return null
+
+  const handleUpload = async (file: File) => {
+    setUploadError('')
+
+    if (!ALLOWED_TYPES.includes(file.type)) {
+      setUploadError('Format gambar harus JPEG, PNG, atau WebP')
+      return
+    }
+
+    if (file.size > MAX_SIZE) {
+      setUploadError('Ukuran gambar maksimal 5MB')
+      return
+    }
+
+    setUploading(true)
+    try {
+      const formData = new FormData()
+      formData.append('file', file)
+
+      const res = await AxiosClient.post('/upload', formData)
+      form.setValue('image', res.data.url, {shouldValidate: true})
+    } catch (err) {
+      console.log(err)
+      setUploadError('Gagal mengupload gambar, coba lagi')
+    } finally {
+      setUploading(false)
+    }
+  }
 
   const handle = async (values: CarResolverType) => {
     setLoading(true)
@@ -100,19 +138,92 @@ const CarFormDialog = ({open, initialData, onClose, onSubmit}: CarFormDialogProp
               placeholder={'Contoh: MPV / SUV'}
               isRequired
             />
-            <TextInput
-              form={form}
-              name={'image'}
-              label={'URL Gambar'}
-              placeholder={'Masukkan URL gambar'}
-              isRequired
-            />
+
+            <div className="flex flex-col gap-2">
+              <label className="text-gray-600">
+                Gambar <span className="text-red-500">*</span>
+              </label>
+
+              <input
+                ref={fileRef}
+                type="file"
+                accept={ALLOWED_TYPES.join(',')}
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0]
+                  if (file) handleUpload(file)
+                  e.target.value = ''
+                }}
+              />
+
+              {image ? (
+                <div className="group relative w-fit overflow-hidden rounded-md border">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img
+                    src={image}
+                    alt="Preview gambar mobil"
+                    className="h-44 w-full object-contain"
+                  />
+                  <div className="absolute inset-x-0 bottom-0 flex justify-end gap-2 bg-gradient-to-t from-black/60 to-transparent p-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <Button
+                      type="button"
+                      variant="secondary"
+                      size="sm"
+                      onClick={() => fileRef.current?.click()}
+                      disabled={uploading}
+                    >
+                      Ganti
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      size="sm"
+                      onClick={() => form.setValue('image', '', {shouldValidate: true})}
+                    >
+                      Hapus
+                    </Button>
+                  </div>
+                  {uploading && (
+                    <div
+                      className="absolute inset-0 flex items-center justify-center bg-black/50"
+                    >
+                      <Loader2 className="size-6 animate-spin text-white"/>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <button
+                  type="button"
+                  onClick={() => fileRef.current?.click()}
+                  disabled={uploading}
+                  className="flex h-32 w-full flex-col items-center justify-center gap-2 rounded-md border border-dashed text-sm text-muted-foreground transition-colors hover:border-primary/50 hover:bg-primary/5 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {uploading ? (
+                    <>
+                      <Loader2 className="size-6 animate-spin text-primary"/>
+                      Mengunggah...
+                    </>
+                  ) : (
+                    <>
+                      <ImagePlus className="size-6 text-primary"/>
+                      Klik untuk pilih gambar
+                      <span className="text-xs">JPEG, PNG, atau WebP — maksimal 5MB</span>
+                    </>
+                  )}
+                </button>
+              )}
+
+              {uploadError && <p className="text-sm text-red-500">{uploadError}</p>}
+              {form.formState.errors.image && (
+                <p className="text-sm text-red-500">{form.formState.errors.image.message}</p>
+              )}
+            </div>
 
             <div className="flex justify-end gap-2 pt-2">
               <Button type="button" variant="outline" onClick={onClose}>
                 Batal
               </Button>
-              <Button type="submit" disabled={loading}>
+              <Button type="submit" disabled={loading || uploading}>
                 {initialData ? 'Update' : 'Simpan'}
               </Button>
             </div>

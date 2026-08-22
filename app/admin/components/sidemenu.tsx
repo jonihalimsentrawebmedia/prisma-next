@@ -13,6 +13,8 @@ import {
   LayoutDashboard,
   LogOut,
   Menu,
+  Quote,
+  Sparkles,
   X,
   type LucideIcon,
 } from "lucide-react";
@@ -36,9 +38,12 @@ const menus: MenuItem[] = [
     icon: KeyRound,
     children: [
       {label: 'Rental', href: '/admin/tenancy/rent'},
+      {label: 'AirPort', href: '/admin/tenancy/AirPort'},
     ],
   },
   {label: 'Mobil', href: '/admin/cars', icon: Car},
+  {label: 'Feature', href: '/admin/feature', icon: Sparkles},
+  {label: 'Testimoni', href: '/admin/testimoni', icon: Quote},
 ]
 
 type SidemenuProps = {

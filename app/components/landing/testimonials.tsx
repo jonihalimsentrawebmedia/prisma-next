@@ -1,38 +1,12 @@
 import {Reveal} from "@/app/components/landing/reveal";
 import {Quote, Star} from "lucide-react";
 
-const testimonials = [
-  {
-    name: 'Budi Santoso',
-    role: 'Traveler',
-    text: 'Proses booking cepat banget, mobilnya bersih dan wangi. Supirnya juga ramah dan paham rute. Recommended!',
-  },
-  {
-    name: 'Siti Rahma',
-    role: 'Ibu Rumah Tangga',
-    text: 'Sewa untuk arisan keluarga, mobil lega dan nyaman. Harganya masuk akal dengan pelayanan sebaik ini.',
-  },
-  {
-    name: 'Andi Wijaya',
-    role: 'Pengusaha',
-    text: 'Langganan tiap ada tamu bisnis. Armada selalu prima dan tim support-nya responsif 24 jam. Mantap!',
-  },
-  {
-    name: 'Dewi Lestari',
-    role: 'Content Creator',
-    text: 'Mobil datang tepat waktu bahkan lebih awal. Proses administrasinya gampang, cukup KTP dan SIM saja.',
-  },
-  {
-    name: 'Rizky Pratama',
-    role: 'Mahasiswa',
-    text: 'Lepas kunci ke luar kota bareng teman-teman, harganya bersahabat buat kantong mahasiswa. Seru!',
-  },
-  {
-    name: 'Maya Kusuma',
-    role: 'Karyawan Swasta',
-    text: 'Ada asuransi all-risk jadi tenang. Pernah kena batu di jalan tol, langsung ditanggung tanpa drama.',
-  },
-]
+export type LandingTestimonial = {
+  id: number
+  name: string
+  pekerjaan: string
+  description: string
+}
 
 function Stars() {
   return (
@@ -44,7 +18,7 @@ function Stars() {
   )
 }
 
-function Card({item}: {item: (typeof testimonials)[number]}) {
+function Card({item}: {item: LandingTestimonial}) {
   return (
     <div
       className="w-72 shrink-0 rounded-2xl border bg-card p-5 transition-colors hover:border-primary/50 sm:w-80"
@@ -54,7 +28,7 @@ function Card({item}: {item: (typeof testimonials)[number]}) {
         <Quote className="size-5 text-primary/30"/>
       </div>
       <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-        &ldquo;{item.text}&rdquo;
+        &ldquo;{item.description}&rdquo;
       </p>
       <div className="mt-4 flex items-center gap-3 border-t pt-4">
         <span
@@ -64,16 +38,19 @@ function Card({item}: {item: (typeof testimonials)[number]}) {
         </span>
         <div>
           <p className="text-sm font-semibold">{item.name}</p>
-          <p className="text-xs text-muted-foreground">{item.role}</p>
+          <p className="text-xs text-muted-foreground">{item.pekerjaan}</p>
         </div>
       </div>
     </div>
   )
 }
 
-export function Testimonials() {
-  const rowA = [...testimonials.slice(0, 3), ...testimonials.slice(0, 3)]
-  const rowB = [...testimonials.slice(3), ...testimonials.slice(3)]
+export function Testimonials({testimonials}: {testimonials: LandingTestimonial[]}) {
+  if (testimonials.length === 0) return null
+
+  const half = Math.ceil(testimonials.length / 2)
+  const rowA = [...testimonials.slice(0, half), ...testimonials.slice(0, half)]
+  const rowB = [...testimonials.slice(half), ...testimonials.slice(half)]
 
   return (
     <section id="testimoni" className="overflow-hidden bg-muted/40 py-20 md:py-28">
@@ -94,14 +71,16 @@ export function Testimonials() {
           className="flex w-max animate-marquee-reverse gap-5 pr-5 hover:[animation-play-state:paused]"
         >
           {rowA.map((item, index) => (
-            <Card key={`a-${index}`} item={item}/>
+            <Card key={`a-${item.id}-${index}`} item={item}/>
           ))}
         </div>
-        <div className="flex w-max animate-marquee gap-5 pr-5 hover:[animation-play-state:paused]">
-          {rowB.map((item, index) => (
-            <Card key={`b-${index}`} item={item}/>
-          ))}
-        </div>
+        {rowB.length > 0 && (
+          <div className="flex w-max animate-marquee gap-5 pr-5 hover:[animation-play-state:paused]">
+            {rowB.map((item, index) => (
+              <Card key={`b-${item.id}-${index}`} item={item}/>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   )

@@ -24,6 +24,7 @@ model Car {
   image     String
   rent      Rent[]
   travel    Travel[]
+  airPorts  AirPort[]
 }
 
 enum RentType {
@@ -50,6 +51,15 @@ model Feature {
   description String
 }
 
+model AirPort {
+  id    Int    @id @default(autoincrement())
+  carId Int
+  price Int
+  car   Car    @relation(references: [id], fields: [carId])
+
+  @@index([carId])
+}
+
 model Travel {
   id          Int    @id @default(autoincrement())
   name        String
@@ -60,4 +70,12 @@ model Travel {
   mobil       Car    @relation(references: [id], fields: [carTravelId])
 
   @@index([carTravelId])
+}
+
+model Testimoni {
+  id          Int     @id @default(autoincrement())
+  name        String
+  pekerjaan   String
+  description String
+  is_publish  Boolean @default(false)
 }
