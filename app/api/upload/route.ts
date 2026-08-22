@@ -94,9 +94,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json(
       {
         message: 'Internal server error',
-        ...(process.env.NODE_ENV === 'development' && {
-          error: error instanceof Error ? error.message : JSON.stringify(error),
-        }),
+        error: error instanceof Error ? error.message : JSON.stringify(error),
       },
       {status: 500}
     )
